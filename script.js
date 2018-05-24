@@ -15,15 +15,7 @@ class Author {
                 this.add(quote);
             }
         });
-    }
-
-    sayHi() {
-        //this function exists for testing purposes
-        console.log(`Hello, my name is ${this.name}`);
-    }
-
-    sayQuotes() {
-        this.quotes.forEach(quote=>console.log(`\t"${quote.content}"`));
+        return this;
     }
 }
 
@@ -34,8 +26,14 @@ class Quote {
         this.tags = quoteNode.children[2].innerHTML.split(" ,");
     }
 
-    print() {
-        console.log(`"${this.content}"`)
+    getView(author) {
+        return `<section class="quote">
+                    <blockquote>${this.content}</blockquote>
+                    <section class="quoteInformation">
+                        <span class="authorName">${author.name}</span>
+                        <img class="authorAvatar" src="images/${this.authorID}.jpg"/>
+                    </section>
+                </section>`
     }
 }
 
@@ -46,12 +44,19 @@ function init() {
     const QUOTES = createQuotes(QUOTES_DATA);
     for (let author in AUTHORS) {
         const AUTHOR = AUTHORS[author];
-        AUTHOR.sayHi();
         AUTHOR.link(QUOTES);
-        AUTHOR.sayQuotes();
     }
-    console.log('\n');
-    //QUOTES.forEach(quote => quote.print());
+    display(AUTHORS);
+}
+
+function display(authors) {
+    const MAIN = document.querySelector("main");
+    for (let author in authors) {
+        const AUTHOR = authors[author];
+        AUTHOR.quotes.forEach(quote => {
+            MAIN.innerHTML += quote.getView(AUTHOR);
+        });
+    }
 }
 
 function createAuthors(data) {
