@@ -48,6 +48,10 @@ blockquote::after {
     margin: 30px;
 }
 
+.quote:hover {
+    background-color: #9197cc;
+}
+
 .quoteInformation {
     display: flex;
     flex-flow: row nowrap;
