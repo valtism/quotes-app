@@ -23,17 +23,26 @@ class Quote {
     constructor(quoteNode) {
         this.content = quoteNode.children[0].innerHTML;
         this.authorID = quoteNode.children[1].innerHTML;
-        this.tags = quoteNode.children[2].innerHTML.split(" ,");
+        this.tags = quoteNode.children[2].innerHTML.split(",");
     }
 
     getView(author) {
         return `<section class="quote">
                     <blockquote>${this.content}</blockquote>
-                    <section class="quoteInformation">
-                        <span class="authorName">${author.name}</span>
-                        <img class="authorAvatar" src="images/${this.authorID}.jpg"/>
-                    </section>
+                    <div class="quoteInformation hide">
+                        <div class="tags">${this.displayTags()}</div>
+                        <div class="authorInformation">
+                            <span class="authorName">${author.name}</span>
+                            <img class="authorAvatar" src="images/${this.authorID}.jpg"/>
+                        </div>
+                    </div>
                 </section>`
+    }
+
+    displayTags() {
+        let tagView = "";
+        this.tags.forEach(tag => tagView += `\n<span class="tag">${tag}</span>`);
+        return tagView;
     }
 }
 
@@ -47,6 +56,8 @@ function init() {
         AUTHOR.link(QUOTES);
     }
     display(AUTHORS);
+    addQuoteInteractivity();
+    addTagInteractivity(QUOTES);
 }
 
 function display(authors) {
@@ -57,6 +68,26 @@ function display(authors) {
             MAIN.innerHTML += quote.getView(AUTHOR);
         });
     }
+}
+
+function addQuoteInteractivity() {
+    const QUOTES = document.querySelectorAll(".quote");
+    QUOTES.forEach(quote => quote.addEventListener("click", () => quote.children[1].classList.toggle("hide")));
+}
+
+function addTagInteractivity() {
+    const TAGS = document.querySelectorAll(".tag");
+    TAGS.forEach(tag => tag.addEventListener("click", click => {
+        console.log(tag.innerHTML);
+        click.stopPropagation();
+    }));
+}
+
+function filterByTag(QUOTES, filter) {
+    QUOTES.filter(quote => quote.tags.some(tag => tag === filter));
+    const MAIN = document.querySelector("main");
+    MAIN.innerHTML = "";
+    //probablity delete this or remake this when you implement MVC
 }
 
 function createAuthors(data) {
@@ -99,5 +130,4 @@ function readInput(input) {
     return XHTTP.responseXML;
 }
 
-//console.log(readInput("quotes.xml").children[0].children[0].children[0].innerHTML);
 init();
