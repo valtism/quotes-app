@@ -1,0 +1,25 @@
+{
+  "name": "quotes-app",
+  "version": "1.0.0",
+  "description": "An app to list quotes from my favourite authors",
+  "main": "app/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sashinexists/quotes-app.git"
+  },
+  "keywords": [
+    "Quotes"
+  ],
+  "author": "Sashin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sashinexists/quotes-app/issues"
+  },
+  "homepage": "https://github.com/sashinexists/quotes-app#readme",
+  "dependencies": {
+    "http-server": "^0.11.1"
+  }
+}
