@@ -32,6 +32,7 @@ class App {
                 console.log('Changing', property, 'from', target[property], 'to', value);
                 target[property] = value;
                 self.updateView();
+                self.currentComponent.controller();
             return true;
             }
         });

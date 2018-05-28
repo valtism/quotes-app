@@ -16,6 +16,25 @@ class Model {
         return AUTHORS.reduce((quotes, author) => quotes.concat(author.quotes), [])
     }
 
+    filterByAuthor(id) {
+        this.refresh();
+        this.authors = [this.authors[id]];
+    }
+
+    filterByTag(tag) {
+        this.refresh();
+        const AUTHORS = this.getAuthors();
+        const filteredQuotes = this.getQuotesWithTag(tag);
+        AUTHORS.forEach(author =>author.quotes = author.quotes.filter(quote => filteredQuotes.some(filtered => filtered===quote)));
+        AUTHORS.filter(author => author.quotes.length>0);
+        this.authors = AUTHORS;
+    }
+
+    getQuotesWithTag(tag) {
+        const QUOTES = this.getQuotes();
+        return QUOTES.filter(quote => quote.tags.some(quoteTag=>quoteTag===tag));
+    }
+
     refresh() {
         this.authors = init();
     }

@@ -8,7 +8,7 @@
         <blockquote>${quote.content}</blockquote>
         <div class="quoteInformation hide">
             <div class="tags">${quote.tags.reduce((HTML, tag) =>HTML+`\n<span class="tag">${tag}</span>`, "")}</div>
-            <div class="authorInformation">
+            <div class="authorInformation" id="${quote.authorID}">
                 <span class="authorName">${author.name}</span>
                 <img class="authorAvatar" src="images/${quote.authorID}.jpg"/>
             </div>
@@ -24,11 +24,10 @@
         name: "quotes",
         model: MODEL,
         view() {
-            return this.model.getAuthors().reduce((HTML, author) => {
-                return HTML + author.quotes.reduce((quoteHTML, quote) => {
-                    return quoteHTML + QUOTE_TEMPLATE(author, quote);
-                }, "")
-            }, "")
+            return this.model.getAuthors().reduce((HTML, author) => 
+                HTML + author.quotes.reduce((quoteHTML, quote) => 
+                     quoteHTML + QUOTE_TEMPLATE(author, quote)
+                , ""), "");
         },
         controller() {
             const QUOTES_DISPLAY = document.querySelectorAll(".quote");
@@ -36,9 +35,15 @@
             
             const TAGS_DISPLAY = document.querySelectorAll(".tag");
             TAGS_DISPLAY.forEach(tag => tag.addEventListener("click", click => {
-                console.log(tag.innerHTML);
+                this.model.filterByTag(tag.innerHTML);
                 click.stopPropagation();
             }));
+
+            const AUTHOR_INFORMATION = document.querySelectorAll(".authorInformation");
+            AUTHOR_INFORMATION.forEach(info => info.addEventListener("click", click => {
+                this.model.filterByAuthor(info.id);
+                click.stopPropagation();
+            }))
             }
     });
 
@@ -46,4 +51,5 @@
 
     const HEADING = document.querySelector("h1");
     HEADING.addEventListener("click", REFRESH);
+
 }
