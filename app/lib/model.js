@@ -35,13 +35,13 @@ async function init() {
 }
 
 async function getAuthors() {
-    const RESPONSE = await read("authors.json");
+    const RESPONSE = await read("data/authors.json");
     const AUTHORS = RESPONSE.authors;
     return await AUTHORS;
 }
 
 async function getQuotes() {
-    const RESPONSE = await read("quotes.json");
+    const RESPONSE = await read("data/quotes.json");
     const QUOTES = RESPONSE.quotes;
     return  await QUOTES;
 }
