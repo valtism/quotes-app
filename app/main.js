@@ -1,33 +1,38 @@
 "use strict";
-{
+async function run() {
     const APP = new App("main");
     const MODEL = new Model();
+
+    const REFRESH = async () => {
+        MODEL.refresh();
+        MODEL.authors = await MODEL.authors;
+        APP.showComponent("quotes");
+    }
+
+    REFRESH();
 
     const QUOTE_TEMPLATE = (author, quote) =>
     `<section class="quote">
         <blockquote>${quote.content}</blockquote>
         <div class="quoteInformation hide">
             <div class="tags">${quote.tags.reduce((HTML, tag) =>HTML+`\n<span class="tag">${tag}</span>`, "")}</div>
-            <div class="authorInformation" id="${quote.authorID}">
+            <div class="authorInformation" id="${quote.author}">
                 <span class="authorName">${author.name}</span>
-                <img class="authorAvatar" src="images/${quote.authorID}.jpg"/>
+                <img class="authorAvatar" src="images/${quote.author}.jpg"/>
             </div>
         </div>
     </section>`;
 
-    const REFRESH = () => {
-        MODEL.refresh();
-        APP.showComponent("quotes");
-    }
+    
 
     APP.addComponent({
         name: "quotes",
         model: MODEL,
-        view() {
-            return this.model.getAuthors().reduce((HTML, author) => 
-                HTML + author.quotes.reduce((quoteHTML, quote) => 
-                     quoteHTML + QUOTE_TEMPLATE(author, quote)
-                , ""), "");
+        view() {   
+                    return this.model.authors.reduce((HTML, author) => 
+                        HTML + author.quotes.reduce((quoteHTML, quote) => 
+                            quoteHTML + QUOTE_TEMPLATE(author, quote)
+                    , ""), "");
         },
         controller() {
             const QUOTES_DISPLAY = document.querySelectorAll(".quote");
@@ -47,9 +52,9 @@
             }
     });
 
-    APP.showComponent("quotes");
-
     const HEADING = document.querySelector("h1");
     HEADING.addEventListener("click", REFRESH);
 
 }
+
+run();

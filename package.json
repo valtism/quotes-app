@@ -4,6 +4,7 @@
   "description": "An app to list quotes from my favourite authors",
   "main": "app/main.js",
   "scripts": {
+    "start": "http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
