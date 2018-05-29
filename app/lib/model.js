@@ -18,7 +18,6 @@ class Model {
 
     async refresh() {
         if (!this.refreshed) {
-            console.log("refreshing!!!");
             const AUTHORS = init();
             this.authors = await AUTHORS;
             this.refreshed = true;

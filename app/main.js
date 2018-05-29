@@ -1,15 +1,13 @@
 "use strict";
+
 async function run() {
     const APP = new App("main");
     const MODEL = new Model();
 
     const REFRESH = async () => {
-        MODEL.refresh();
-        MODEL.authors = await MODEL.authors;
+        MODEL.authors = await MODEL.refresh();
         APP.showComponent("quotes");
     }
-
-    REFRESH();
 
     const QUOTE_TEMPLATE = (author, quote) =>
     `<section class="quote">
@@ -51,6 +49,8 @@ async function run() {
             }))
             }
     });
+
+    REFRESH();
 
     const HEADING = document.querySelector("h1");
     HEADING.addEventListener("click", REFRESH);
