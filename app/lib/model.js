@@ -1,24 +1,29 @@
 class Model {
     constructor() {
         this.authors = init();
+        this.refreshed = true;
     }
 
-    filterByAuthor(id) {
-        this.refresh();
-        //this.authors = await this.authors;
-        this.authors = this.authors.filter(author => author.id === id);
+    async filterByAuthor(id) {
+        await this.refresh();
+        this.authors = [this.authors.find(author => author.id === id)];
+        this.refreshed = false;
     }
 
-    filterByTag(tag) {
-        this.refresh();
-        //this.authors = await this.authors;
+    async filterByTag(tag) {
+        await this.refresh();
         this.authors.forEach(author => author.quotes = author.quotes.filter(quote => quote.tags.some(quoteTag => quoteTag === tag)));
+        this.refreshed = false;
     }
 
     async refresh() {
-        console.log("refreshing!!!");
-        this.authors = await init();
-        console.log("refreshed!!!");
+        if (!this.refreshed) {
+            console.log("refreshing!!!");
+            const AUTHORS = init();
+            this.authors = await AUTHORS;
+            this.refreshed = true;
+        }
+        return this.authors;
     }
 }
 
