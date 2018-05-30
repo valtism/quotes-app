@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Meera+Inimai');
 
+* {
+    transition: .5s, all, ease-in-out;
+}
+
 body {
     font-family: 'Meera Inimai', sans-serif;
     text-align: center;
@@ -22,12 +26,14 @@ main {
     flex-flow: column nowrap;
 }
 
-h1 a {
+
+h1 {
+    color: #fff;
     text-decoration: none;
 }
 
-h1 a {
-    color: #fff;
+h1:hover {
+    color: #9197cc;
 }
 
 blockquote {
@@ -64,6 +70,24 @@ blockquote::after {
 
 .quote:hover {
     background-color: #9197cc;
+}
+
+.quote::before {
+    content: "+";
+    font-size: 20px;
+    text-align: center;
+    align-self: flex-end;
+    height: 30px;
+    width: 30px;
+    border-radius: 22.5px;
+    background-color: #7D82B0;
+    line-height: 30px;
+    position: absolute;
+}
+
+.quote.open::before {
+    content: "-";
+    font-size: 30px;
 }
 
 .quoteInformation {

@@ -34,7 +34,10 @@ async function run() {
         },
         controller() {
             const QUOTES_DISPLAY = document.querySelectorAll(".quote");
-            QUOTES_DISPLAY.forEach(quote => quote.addEventListener("click", () => quote.children[1].classList.toggle("hide")));
+            QUOTES_DISPLAY.forEach(quote => quote.addEventListener("click", () => {
+                quote.children[1].classList.toggle("hide");
+                quote.classList.toggle("open");
+            }));
             
             const TAGS_DISPLAY = document.querySelectorAll(".tag");
             TAGS_DISPLAY.forEach(tag => tag.addEventListener("click", click => {
