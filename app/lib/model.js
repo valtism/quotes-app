@@ -1,3 +1,5 @@
+"use strict";
+
 class Model {
     constructor() {
         this.authors = init();
