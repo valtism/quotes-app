@@ -16,7 +16,7 @@ body {
 
 
 main {
-    background-color:#191F58;;
+    background-color: #191F58;
     border: 3px solid #535993;
     border-radius: 7.5px;
     padding: 30px;
@@ -24,6 +24,13 @@ main {
     max-width: 100%;
     display: flex;
     flex-flow: column nowrap;
+}
+
+main.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
 }
 
 
@@ -66,6 +73,8 @@ blockquote::after {
     display: flex;
     flex-flow: column wrap;
     align-items: center;
+    grid-column: 1 / 3; /* grid settings still work in progress */
+    grid-row: 1;
 }
 
 .quote:hover {

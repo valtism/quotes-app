@@ -6,7 +6,12 @@ async function run() {
 
     const REFRESH = async () => {
         MODEL.authors = await MODEL.refresh();
+        //switchLayout();
         APP.showComponent("quotes");
+    }
+    //not used at the moment, may delete
+    const switchLayout = () => {
+        document.querySelector("main").classList.toggle("grid");
     }
 
     const QUOTE_TEMPLATE = (author, quote) =>
