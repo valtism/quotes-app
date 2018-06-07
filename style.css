@@ -175,3 +175,28 @@ blockquote::after {
         transform: translateX(0);
     }
 }
+
+@media only screen and (max-width: 450px) {
+    * {
+        font-size: 80%;
+    }
+    
+    main {
+        width: 100%;
+        padding: 0;
+        position: relative;
+        border: none;
+    }
+    
+    h1 {
+        margin: 5px;
+        font-size: 32px;
+    }
+
+    .quote {
+        width: 100%;
+        margin: 0;
+        margin-bottom: 10px;
+        border-radius: 0;
+    }
+}
