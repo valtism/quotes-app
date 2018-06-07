@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Meera+Inimai');
 
 * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     transition: .5s, all, ease-in-out;
 }
 
@@ -36,6 +39,7 @@ main.grid {
 
 h1 {
     color: #fff;
+    margin: 20px;
     text-decoration: none;
 }
 
@@ -45,6 +49,7 @@ h1:hover {
 
 blockquote {
     margin: none;
+    padding: 20px;
     text-align: left;
     line-height: 1.5em;
 }
@@ -140,7 +145,8 @@ blockquote::after {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
+    max-width: 50%;
 }
 
 .tag {
