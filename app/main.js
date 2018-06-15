@@ -3,28 +3,27 @@
 async function run() {
     const APP = new App("main");
     const MODEL = new Model();
+    const ROUTER = new Router(APP);
 
     const REFRESH = async () => {
         MODEL.authors = await MODEL.refresh();
-        //switchLayout();
+        MODEL.quotes = MODEL.seedQuotes();
         APP.showComponent("quotes");
     }
-    //not used at the moment, may delete
-    const switchLayout = () => {
-        document.querySelector("main").classList.toggle("grid");
-    }
 
-    const QUOTE_TEMPLATE = (author, quote) =>
-    `<section class="quote">
-        <blockquote>${quote.content}</blockquote>
-        <div class="quoteInformation hide">
-            <div class="tags">${quote.tags.reduce((HTML, tag) =>HTML+`\n<span class="tag">${tag}</span>`, "")}</div>
-            <div class="authorInformation" id="${quote.author}">
-                <span class="authorName">${author.name}</span>
-                <img class="authorAvatar" src="images/${quote.author}.jpg"/>
+    const QUOTE_TEMPLATE = (quote, index) =>
+    `<a href="#quotes?id=${index}">
+        <section class="quote">
+            <blockquote>${quote.content}</blockquote>
+            <div class="quoteInformation hide">
+                <div class="tags">${quote.tags.reduce((HTML, tag) =>HTML+`\n<span class="tag">${tag}</span>`, "")}</div>
+                <div class="authorInformation" id="${quote.author}">
+                    <span class="authorName">${MODEL.getAuthorName(quote.author)}</span>
+                    <img class="authorAvatar" src="images/${quote.author}.jpg"/>
+                </div>
             </div>
-        </div>
-    </section>`;
+        </section>
+    </a>`;
 
     
 
@@ -32,10 +31,9 @@ async function run() {
         name: "quotes",
         model: MODEL,
         view() {   
-                    return this.model.authors.reduce((HTML, author) => 
-                        HTML + author.quotes.reduce((quoteHTML, quote) => 
-                            quoteHTML + QUOTE_TEMPLATE(author, quote)
-                    , ""), "");
+                    return this.model.quotes.reduce((HTML, quote) => 
+                        HTML + QUOTE_TEMPLATE(quote, this.model.allQuotes.indexOf(quote))
+                    , "");
         },
         controller() {
             const QUOTES_DISPLAY = document.querySelectorAll(".quote");

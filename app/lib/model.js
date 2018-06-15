@@ -3,18 +3,34 @@
 class Model {
     constructor() {
         this.authors = init();
-        this.refreshed = true;
+        this.refreshed = false;
+        this.quotes = [];
+        this.allQuotes = [];
+    }
+
+    seedQuotes() {
+        return this.authors.reduce((quotes, author) => quotes = quotes.concat(author.quotes), []);
+    }
+
+    getAuthorName(id) {
+        return this.authors.find(author => author.id === id).name;
+    }
+
+    async showQuote(id) {
+        await this.refresh();
+        this.quotes = [this.quotes[id]];
+        this.refreshed = false;
     }
 
     async filterByAuthor(id) {
         await this.refresh();
-        this.authors = [this.authors.find(author => author.id === id)];
+        this.quotes = this.quotes.filter(quote => quote.author === id);
         this.refreshed = false;
     }
 
     async filterByTag(tag) {
         await this.refresh();
-        this.authors.forEach(author => author.quotes = author.quotes.filter(quote => quote.tags.some(quoteTag => quoteTag === tag)));
+        this.quotes = this.quotes.filter(quote => quote.tags.some(quoteTag => quoteTag === tag));
         this.refreshed = false;
     }
 
@@ -22,6 +38,8 @@ class Model {
         if (!this.refreshed) {
             const AUTHORS = init();
             this.authors = await AUTHORS;
+            this.quotes = this.seedQuotes();
+            this.allQuotes = this.quotes.slice();
             this.refreshed = true;
         }
         return this.authors;
@@ -44,7 +62,7 @@ async function getAuthors() {
 async function getQuotes() {
     const RESPONSE = await read("data/quotes.json");
     const QUOTES = RESPONSE.quotes;
-    return  await QUOTES;
+    return await QUOTES;
 }
 
 async function read(input) {

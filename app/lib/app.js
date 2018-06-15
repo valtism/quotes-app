@@ -21,7 +21,7 @@ class App {
         if (this.currentComponent) {
             this.interface.innerHTML = this.currentComponent.view();
         } else {
-            this.interface.innerHTML = "<h3>Quotes not found</h3>"
+            this.interface.innerHTML = "<h3>Content not found</h3>"
         }
     }
 
