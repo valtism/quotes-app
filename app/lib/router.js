@@ -19,7 +19,6 @@ class Router {
             const QUOTE_DISPLAY = document.querySelector(".quote");
             QUOTE_DISPLAY.children[1].classList.toggle("hide");
             QUOTE_DISPLAY.classList.toggle("open");
-            console.log("Hello, hello");
         } else {
             this.app.components.quotes.model.refresh();
         }
