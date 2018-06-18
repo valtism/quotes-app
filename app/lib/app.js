@@ -17,18 +17,18 @@ class App {
         this.currentComponent.controller();
     }
 
-    updateView() {
+    async updateView() {
         if (this.currentComponent) {
             this.interface.innerHTML = this.currentComponent.view();
         } else {
-            this.interface.innerHTML = "<h3>Quotes not found</h3>"
+            this.interface.innerHTML = "<h3>Content not found</h3>"
         }
     }
 
     proxify(model) {
         const self = this;
         return new Proxy(model, {
-            set(target, property, value) {
+            async set(target, property, value) {
                 console.log('Changing', property, 'from', target[property], 'to', value);
                 target[property] = value;
                 self.updateView();

@@ -1,0 +1,20 @@
+{
+	"authors": [
+		{
+			"id": "RICHARD-DAWKINS",
+			"name": "Richard Dawkins"
+		},
+		{
+			"id": "SAM-HARRIS",
+			"name": "Sam Harris"
+		},
+		{
+			"id": "CHRISTOPHER-HITCHENS",
+			"name": "Christopher Hitchens"
+		},
+		{
+			"id": "DANIEL-DENNETT",
+			"name": "Daniel Dennett"
+		}
+	]
+}

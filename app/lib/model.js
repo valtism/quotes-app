@@ -1,122 +1,72 @@
+"use strict";
+
 class Model {
     constructor() {
         this.authors = init();
-    }
-
-    getAuthors() {
-        const AUTHORS = [];
-        for (const author in this.authors) {
-            AUTHORS.push(this.authors[author])
-        }
-        return AUTHORS;
-    }
-
-    getQuotes() {
-        const AUTHORS = this.getAuthors();
-        return AUTHORS.reduce((quotes, author) => quotes.concat(author.quotes), [])
-    }
-
-    filterByAuthor(id) {
-        this.refresh();
-        this.authors = [this.authors[id]];
-    }
-
-    filterByTag(tag) {
-        this.refresh();
-        const AUTHORS = this.getAuthors();
-        const filteredQuotes = this.getQuotesWithTag(tag);
-        AUTHORS.forEach(author =>author.quotes = author.quotes.filter(quote => filteredQuotes.some(filtered => filtered===quote)));
-        AUTHORS.filter(author => author.quotes.length>0);
-        this.authors = AUTHORS;
-    }
-
-    getQuotesWithTag(tag) {
-        const QUOTES = this.getQuotes();
-        return QUOTES.filter(quote => quote.tags.some(quoteTag=>quoteTag===tag));
-    }
-
-    refresh() {
-        this.authors = init();
-    }
-}
-
-class Author {
-    constructor(authorNode) {
-        this.id = authorNode.children[0].innerHTML;
-        this.name = authorNode.children[1].innerHTML;
+        this.refreshed = false;
         this.quotes = [];
+        this.allQuotes = [];
     }
 
-    add(quote) {
-        this.quotes.push(quote);
+    seedQuotes() {
+        return this.authors.reduce((quotes, author) => quotes = quotes.concat(author.quotes), []);
     }
 
-    link(quotes) {
-        quotes.forEach(quote => {
-            if(quote.authorID===this.id) {
-                this.add(quote);
-            }
-        });
-        return this;
+    getAuthorName(id) {
+        return this.authors.find(author => author.id === id).name;
+    }
+
+    async showQuote(id) {
+        await this.refresh();
+        this.quotes = [this.quotes[id]];
+        this.refreshed = false;
+    }
+
+    async filterByAuthor(id) {
+        await this.refresh();
+        this.quotes = this.quotes.filter(quote => quote.author === id);
+        this.refreshed = false;
+    }
+
+    async filterByTag(tag) {
+        await this.refresh();
+        this.quotes = this.quotes.filter(quote => quote.tags.some(quoteTag => quoteTag === tag));
+        this.refreshed = false;
+    }
+
+    async refresh() {
+        if (!this.refreshed) {
+            const AUTHORS = init();
+            this.authors = await AUTHORS;
+            this.quotes = this.seedQuotes();
+            this.allQuotes = this.quotes.slice();
+            this.refreshed = true;
+        }
+        return this.authors;
     }
 }
 
-class Quote {
-    constructor(quoteNode) {
-        this.content = quoteNode.children[0].innerHTML;
-        this.authorID = quoteNode.children[1].innerHTML;
-        this.tags = quoteNode.children[2].innerHTML.split(",");
-    }
-}
-
-function init() {
-    const AUTHORS_DATA = readInput("authors.xml");
-    const QUOTES_DATA = readInput("quotes.xml");
-    const AUTHORS = createAuthors(AUTHORS_DATA);
-    const QUOTES = createQuotes(QUOTES_DATA);
-    for (let author in AUTHORS) {
-        const AUTHOR = AUTHORS[author];
-        AUTHOR.link(QUOTES);
-    }
+async function init() {
+    const AUTHORS = await  getAuthors();
+    const QUOTES = await getQuotes();
+    AUTHORS.map(author => author.quotes = QUOTES.filter(quote => quote.author === author.id));
     return AUTHORS;
 }
 
-function createAuthors(data) {
-    const AUTHOR_LIST = data.children[0].children;
-    const AUTHORS = {};
-    for (let authorData in AUTHOR_LIST) {
-        const AUTHOR = AUTHOR_LIST[authorData];
-        if (AUTHOR.nodeName === "author") {
-            const AUTHOR_ID = AUTHOR.children[0].innerHTML;
-            AUTHORS[AUTHOR_ID] = createAuthor(AUTHOR);
-        }
-    }
-    return AUTHORS;
+async function getAuthors() {
+    const RESPONSE = await read("data/authors.json");
+    const AUTHORS = RESPONSE.authors;
+    return await AUTHORS;
 }
 
-function createAuthor(data) {
-    return new Author(data);
+async function getQuotes() {
+    const RESPONSE = await read("data/quotes.json");
+    const QUOTES = RESPONSE.quotes;
+    return await QUOTES;
 }
 
-function createQuotes(data) {
-    const QUOTE_LIST = data.children[0].children;
-    const QUOTES = [];
-    for (let quoteData in QUOTE_LIST) {
-        const QUOTE = QUOTE_LIST[quoteData];
-        if (QUOTE.nodeName === "quote") {
-            QUOTES.push(createQuote(QUOTE));
-        }
-    }
-    return QUOTES;
-}
-
-function createQuote(data) {
-    return new Quote(data);
-}
-
-function readInput(input) {
-    const XHTTP = new XMLHttpRequest();
-    XHTTP.open("GET", input, false);
-    XHTTP.send();
-    return XHTTP.responseXML;
+async function read(input) {
+    const RESPONSE = await fetch(input);
+    const PARSED = await RESPONSE.json();
+    return PARSED;
 }
