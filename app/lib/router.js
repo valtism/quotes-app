@@ -1,3 +1,5 @@
+"use strict";
+
 class Router {
     constructor(app) {
         this.app = app;
@@ -11,9 +13,13 @@ class Router {
         this.routes.push({name, url});
     }
 
-    hashChange() {
+    async hashChange() {
         if(/id=\d/.test(window.location.hash)) {
-            this.app.components.quotes.model.showQuote(getQuoteID());
+            await this.app.components.quotes.model.showQuote(getQuoteID());
+            const QUOTE_DISPLAY = document.querySelector(".quote");
+            QUOTE_DISPLAY.children[1].classList.toggle("hide");
+            QUOTE_DISPLAY.classList.toggle("open");
+            console.log("Hello, hello");
         } else {
             this.app.components.quotes.model.refresh();
         }
