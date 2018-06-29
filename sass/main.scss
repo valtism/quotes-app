@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Meera+Inimai');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
+
+$color-white: #fff;
+$color-black: #000;
+$color-shadow: rgba(0, 0, 0, 0.322);
+$color-hover: #f4f4f4;
+
 
 * {
     margin: 0;
@@ -8,10 +14,10 @@
 }
 
 body {
-    font-family: 'Meera Inimai', sans-serif;
+    font-family: 'Merriweather', serif;
     text-align: center;
-    background-color: #080D3B;
-    color: #fff;
+    background-color: $color-white;
+    color: $color-black;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
@@ -20,11 +26,6 @@ body {
 
 
 main {
-    background-color: #191F58;
-    border: 3px solid #535993;
-    border-radius: 7.5px;
-    padding: 30px;
-    width: 900px;
     max-width: 100%;
     display: flex;
     flex-flow: column nowrap;
@@ -39,7 +40,6 @@ main.grid {
 
 
 h1 {
-    color: #fff;
     margin: 20px;
     text-decoration: none;
 }
@@ -50,14 +50,13 @@ a {
 }
 
 h1 a:hover {
-    color: #9197cc;
 }
 
 blockquote {
     margin: none;
     padding: 20px;
     text-align: left;
-    line-height: 1.5em;
+    line-height: 3rem;
 }
 
 blockquote::before {
@@ -74,13 +73,14 @@ blockquote::after {
 }
 
 .quote {
-    font-size: 20px;
-    color: #080D3B;
-    background-color: #7D82B0;
-    border-radius: 7.5px;
+    width: 960px;
+    max-width: 100%;
+    font-size: 28px;
     padding: 20px;
-    margin: 30px;
-    box-shadow: 5px 5px #080D3B;
+    margin: 30px 0;
+    font-weight: 400;
+    color: $color-black;
+    box-shadow: 0 10px 20px -20px $color-shadow;
     display: flex;
     flex-flow: column wrap;
     align-items: center;
@@ -90,20 +90,25 @@ blockquote::after {
 }
 
 .quote:hover {
-    background-color: #9197cc;
+    box-shadow: 0 50px 100px -100px $color-shadow;
 }
 
 .quote::before {
     content: "+";
-    font-size: 20px;
+    font-size: 30px;
     text-align: center;
     align-self: flex-end;
     height: 30px;
     width: 30px;
-    border-radius: 22.5px;
-    background-color: #7D82B0;
     line-height: 30px;
     position: absolute;
+}
+
+.quote.open{
+    width: 1200px;
+    font-size: 36px;
+    max-width: 100%;
+    animation: expand .8s;
 }
 
 .quote.open::before {
@@ -118,6 +123,7 @@ blockquote::after {
     justify-content: space-between;
     text-align: center;
     width: 92.5%;
+    font-weight: 700;
 }
 
 .authorInformation {
@@ -127,11 +133,11 @@ blockquote::after {
     justify-content: end;
     text-align: center;
     padding: 10px;
-    border-radius: 7.5px;
+    border-radius: 5px;
 }
 
 .authorInformation:hover {
-    background-color: #7D82B0;
+    background-color: $color-hover;
 }
 
 .authorName {
@@ -158,12 +164,11 @@ blockquote::after {
 .tag {
     margin-right: 10px;
     padding: 10px;
-    border-radius: 7.5px;
-    text-transform: uppercase;
+    border-radius: 5px;
 }
 
 .tag:hover {
-    background-color: #7D82B0;
+    background-color: $color-hover;
 }
 
 .hide {
@@ -179,6 +184,18 @@ blockquote::after {
     100% {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+@keyframes expand {
+    0% {
+        width: 960px;
+        max-width: 100%;
+    }
+
+    100% {
+        width: 1200px;
+        max-width: 100%;
     }
 }
 
