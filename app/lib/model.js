@@ -24,13 +24,13 @@ class Model {
 
     async filterByAuthor(id) {
         await this.refresh();
-        this.quotes = this.quotes.filter(quote => quote.author === id);
+        this.quotes = this.quotes.filter(quote => quote.author === id.toUpperCase());
         this.refreshed = false;
     }
 
     async filterByTag(tag) {
         await this.refresh();
-        this.quotes = this.quotes.filter(quote => quote.tags.some(quoteTag => quoteTag === tag));
+        this.quotes = this.quotes.filter(quote => quote.tags.some(quoteTag => quoteTag.toLowerCase() === tag.toLowerCase()));
         this.refreshed = false;
     }
 

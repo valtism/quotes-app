@@ -12,18 +12,20 @@ async function run() {
     }
 
     const QUOTE_TEMPLATE = (quote, index) =>
-    `<a href="#quotes?id=${index}">
-        <section class="quote">
+    `<section class="quote">
+        <a href="#quotes?id=${index}">
             <blockquote>${quote.content}</blockquote>
+        </a>
             <div class="quoteInformation hide">
-                <div class="tags">${quote.tags.reduce((HTML, tag) =>HTML+`\n<span class="tag">${tag}</span>`, "")}</div>
-                <div class="authorInformation" id="${quote.author}">
-                    <span class="authorName">${MODEL.getAuthorName(quote.author)}</span>
-                    <img class="authorAvatar" src="images/${quote.author}.jpg"/>
-                </div>
+                <div class="tags">${quote.tags.reduce((HTML, tag) =>HTML+`\n<a href="#quotes?tag=${tag}" class="tag">${tag}</a>`, "")}</div>
+                <a href="#quotes?author=${quote.author.toLowerCase()}">
+                    <div class="authorInformation">
+                        <span class="authorName">${MODEL.getAuthorName(quote.author)}</span>
+                        <img class="authorAvatar" src="images/${quote.author}.jpg"/>
+                    </div>
+                </a>
             </div>
-        </section>
-    </a>`;
+        </section>`;
 
     
 
@@ -44,13 +46,11 @@ async function run() {
             
             const TAGS_DISPLAY = document.querySelectorAll(".tag");
             TAGS_DISPLAY.forEach(tag => tag.addEventListener("click", click => {
-                this.model.filterByTag(tag.innerHTML);
                 click.stopPropagation();
             }));
 
             const AUTHOR_INFORMATION = document.querySelectorAll(".authorInformation");
             AUTHOR_INFORMATION.forEach(info => info.addEventListener("click", click => {
-                this.model.filterByAuthor(info.id);
                 click.stopPropagation();
             }))
             }

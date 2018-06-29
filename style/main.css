@@ -58,7 +58,7 @@ blockquote::after {
   margin: 30px 0;
   font-weight: 400;
   color: #000;
-  box-shadow: 0 10px 20px -20px rgba(0, 0, 0, 0.322);
+  box-shadow: 0 10px 20px -20px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-flow: column wrap;
   align-items: center;
@@ -69,7 +69,7 @@ blockquote::after {
   animation: enterFromLeft .6s; }
 
 .quote:hover {
-  box-shadow: 0 50px 100px -100px rgba(0, 0, 0, 0.322); }
+  box-shadow: 0 50px 100px -100px rgba(0, 0, 0, 0.7); }
 
 .quote::before {
   content: "+";
@@ -110,7 +110,7 @@ blockquote::after {
   transition: all .3s ease-in-out; }
 
 .authorInformation:hover {
-  box-shadow: 0 5px 20px -10px rgba(0, 0, 0, 0.322); }
+  box-shadow: 0 5px 20px -10px rgba(0, 0, 0, 0.35); }
 
 .authorName {
   font-size: 30px;
@@ -137,7 +137,7 @@ blockquote::after {
   border-radius: 5px; }
 
 .tag:hover {
-  box-shadow: 0 5px 20px -5px rgba(0, 0, 0, 0.322); }
+  box-shadow: 0 5px 20px -5px rgba(0, 0, 0, 0.35); }
 
 .hide {
   display: none; }
