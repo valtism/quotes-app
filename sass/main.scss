@@ -10,7 +10,6 @@ $color-hover: #f4f4f4;
     margin: 0;
     padding: 0;
     box-sizing: inherit;
-    transition: .5s, all, ease-in-out;
 }
 
 body {
@@ -86,6 +85,7 @@ blockquote::after {
     align-items: center;
     grid-column: 1 / 3; /* grid settings still work in progress */
     grid-row: 1;
+    transition: .6s, all, ease-in-out;
     animation: enterFromLeft .6s;
 }
 
