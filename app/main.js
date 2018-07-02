@@ -5,6 +5,8 @@ async function run() {
     const MODEL = new Model();
     const ROUTER = new Router(APP);
 
+    var searchTimeout;
+
     const REFRESH = async () => {
         MODEL.authors = await MODEL.refresh();
         MODEL.quotes = MODEL.seedQuotes();
@@ -60,7 +62,12 @@ async function run() {
             })
 
             const SEARCH_BAR = document.querySelector("input.search");
-            SEARCH_BAR.addEventListener("input", () => window.location = `#quotes?search=${SEARCH_BAR.value}`);
+            SEARCH_BAR.addEventListener("input", (e) => {
+                clearTimeout(searchTimeout)
+                searchTimeout = setTimeout(function(){
+                    window.location = `#quotes?search=${SEARCH_BAR.value}`
+                }, 300)
+            });
 
         }
     });
