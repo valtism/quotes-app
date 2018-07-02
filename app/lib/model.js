@@ -24,13 +24,21 @@ class Model {
 
     async filterByAuthor(id) {
         await this.refresh();
-        this.quotes = this.quotes.filter(quote => quote.author === id);
+        this.quotes = this.quotes.filter(quote => quote.author === id.toUpperCase());
         this.refreshed = false;
     }
 
     async filterByTag(tag) {
         await this.refresh();
-        this.quotes = this.quotes.filter(quote => quote.tags.some(quoteTag => quoteTag === tag));
+        this.quotes = this.quotes.filter(quote => quote.tags.some(quoteTag => quoteTag.toLowerCase() === tag.toLowerCase()));
+        this.refreshed = false;
+    }
+
+    async filterBySearch(terms) {
+        await this.refresh();
+        this.quotes = this.quotes.filter(quote => quote.content.toLowerCase().match(terms, "i"));
+        const TERMS_REGEX = new RegExp(terms, "i");
+        this.quotes.forEach(quote => quote.content = quote.content.replace(TERMS_REGEX, `<strong>$&</strong>`));
         this.refreshed = false;
     }
 
