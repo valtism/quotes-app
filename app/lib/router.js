@@ -23,6 +23,8 @@ class Router {
             await this.app.components.quotes.model.filterByAuthor(getAuthorID());
         } else if (/tag=\w+/i.test(window.location.hash)) {
             await this.app.components.quotes.model.filterByTag(getTag());
+        } else if (/search=.+/i.test(window.location.hash)) { 
+            await this.app.components.quotes.model.filterBySearch(getTerm());
         } else {
             this.app.components.quotes.model.refresh();
         }
@@ -45,4 +47,10 @@ function getTag() {
     const TAG_REGEX = /tag=\w+/i;
     const HASH = window.location.hash;
     return HASH.match(TAG_REGEX)[0].slice(4);
+}
+
+function getTerm() {
+    const TERM_REGEX = /search=.+/i;
+    const HASH = window.location.hash;
+    return HASH.match(TERM_REGEX)[0].slice(7);
 }

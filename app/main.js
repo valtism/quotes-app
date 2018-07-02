@@ -53,7 +53,16 @@ async function run() {
             AUTHOR_INFORMATION.forEach(info => info.addEventListener("click", click => {
                 click.stopPropagation();
             }))
-            }
+
+            document.querySelector(".icon.fa-search").addEventListener("click", () => {
+                document.querySelector("h1").classList.toggle("hide");
+                document.querySelector("input.search").classList.toggle("hide");
+            })
+
+            const SEARCH_BAR = document.querySelector("input.search");
+            SEARCH_BAR.addEventListener("input", () => window.location = `#quotes?search=${SEARCH_BAR.value}`);
+
+        }
     });
 
     REFRESH();

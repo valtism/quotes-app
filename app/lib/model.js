@@ -34,6 +34,14 @@ class Model {
         this.refreshed = false;
     }
 
+    async filterBySearch(terms) {
+        await this.refresh();
+        this.quotes = this.quotes.filter(quote => quote.content.toLowerCase().match(terms, "i"));
+        const TERMS_REGEX = new RegExp(terms, "i");
+        this.quotes.forEach(quote => quote.content = quote.content.replace(TERMS_REGEX, `<strong>$&</strong>`));
+        this.refreshed = false;
+    }
+
     async refresh() {
         if (!this.refreshed) {
             const AUTHORS = init();
